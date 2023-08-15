@@ -6,26 +6,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class StreetNews extends StatefulWidget {
   const StreetNews({super.key});
-
   @override
   State<StreetNews> createState() => _StreetNewsState();
 }
 
 class _StreetNewsState extends State<StreetNews> {
-  List<Articles>? articles;
+  List<ApiModel>? newsdata;
   @override
   void initState() {
     getData();
-
     // TODO: implement initState
     super.initState();
   }
 
   void getData() async {
-    final articles = await ChannelProvider.getNews(ChannelService.wallsnews);
-    setState(() {
-      this.articles = articles;
-    });
+    final data = await ChannelProvider.getNews(ChannelService.wallsnews);
+    setState(
+      () {
+        newsdata = data;
+      },
+    );
   }
 
   @override
@@ -44,7 +44,7 @@ class _StreetNewsState extends State<StreetNews> {
         ),
         elevation: 0.0,
       ),
-      body: articles == null
+      body: newsdata == null
           ? const Center(
               child: Center(
                 child: CircularProgressIndicator(),
@@ -54,19 +54,19 @@ class _StreetNewsState extends State<StreetNews> {
               child: Column(
                 children: [
                   ...List.generate(
-                    articles!.length,
+                    newsdata!.length,
                     (index) => ListTile(
                       title: Column(
                         children: [
                           Text(
-                            articles?[index].title ?? 'not available',
+                            newsdata?[index].title ?? 'not available',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Container(
                             width: 500,
                             height: 200,
                             child: CachedNetworkImage(
-                              imageUrl: articles?[index].urlToImage ??
+                              imageUrl: newsdata?[index].urlToImage ??
                                   'not available',
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
@@ -77,7 +77,7 @@ class _StreetNewsState extends State<StreetNews> {
                         ],
                       ),
                       subtitle:
-                          Text(articles?[index].description ?? 'not available'),
+                          Text(newsdata?[index].description ?? 'not available'),
                     ),
                   )
                 ],

@@ -2,19 +2,21 @@ import 'package:dio/dio.dart';
 import '../model/channel_api.dart';
 
 class ChannelProvider {
-  static final _client = Dio();
-  static Future<List<Articles>> getNews(String url) async {
+  static final dio = Dio();
+  static Future<List<ApiModel>> getNews(String url) async {
     try {
-      final response = await _client.get(url);
+      final response = await dio.get(url);
       if (response.statusCode == 200) {
-        final articles = response.data as Map<String, dynamic>;
-        var data = ChannelApi.fromJson(articles);
-        return data.articles!;
+        final responsedata = response.data as Map<String, dynamic>;
+        var data = ChannelApi.fromJson(responsedata);
+        return data.newsdata!;
       } else {
-        throw Exception('Failed to fetch articals');
+        throw Exception('Failed to fetch data');
       }
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception(
+        e.toString(),
+      );
     }
   }
 }

@@ -12,7 +12,7 @@ class AppleNews extends StatefulWidget {
 }
 
 class _AppleNewsState extends State<AppleNews> {
-  List<Articles>? articles;
+  List<ApiModel>? newsdata;
   @override
   void initState() {
     getData();
@@ -22,9 +22,9 @@ class _AppleNewsState extends State<AppleNews> {
   }
 
   void getData() async {
-    final articles = await ChannelProvider.getNews(ChannelService.applenews);
+    final data = await ChannelProvider.getNews(ChannelService.applenews);
     setState(() {
-      this.articles = articles;
+      newsdata = data;
     });
   }
 
@@ -44,7 +44,7 @@ class _AppleNewsState extends State<AppleNews> {
         ),
         elevation: 0.0,
       ),
-      body: articles == null
+      body: newsdata == null
           ? const Center(
               child: Center(child: CircularProgressIndicator()),
             )
@@ -52,19 +52,19 @@ class _AppleNewsState extends State<AppleNews> {
               child: Column(
                 children: [
                   ...List.generate(
-                    articles!.length,
+                    newsdata!.length,
                     (index) => ListTile(
                       title: Column(
                         children: [
                           Text(
-                            articles?[index].title ?? 'not available',
+                            newsdata?[index].title ?? 'not available',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Container(
                             width: 500,
                             height: 200,
                             child: CachedNetworkImage(
-                              imageUrl: articles?[index].urlToImage ??
+                              imageUrl: newsdata?[index].urlToImage ??
                                   'not available',
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
@@ -72,12 +72,10 @@ class _AppleNewsState extends State<AppleNews> {
                                   const Icon(Icons.error),
                             ),
                           ),
-
-                          // Text(articles?[index].publishedAt ?? 'not available'),
                         ],
                       ),
                       subtitle:
-                          Text(articles?[index].description ?? 'not available'),
+                          Text(newsdata?[index].description ?? 'not available'),
                     ),
                   )
                 ],
