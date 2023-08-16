@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../helper/provider.dart';
 import '../../helper/services.dart';
-import '../../model/channel_api.dart';
+import '../../model/apimodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class TeslaNews extends StatefulWidget {
@@ -12,18 +12,17 @@ class TeslaNews extends StatefulWidget {
 }
 
 class _TeslaNewsState extends State<TeslaNews> {
-  List<Articles>? articles;
+  List<ApiModel>? newsdata;
   @override
   void initState() {
     getData();
-    // TODO: implement initState
     super.initState();
   }
 
   void getData() async {
     final articles = await ChannelProvider.getNews(ChannelService.teslanews);
     setState(() {
-      this.articles = articles;
+      newsdata = articles;
     });
   }
 
@@ -44,7 +43,7 @@ class _TeslaNewsState extends State<TeslaNews> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        child: articles == null
+        child: newsdata == null
             ? const Center(
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -53,19 +52,19 @@ class _TeslaNewsState extends State<TeslaNews> {
             : Column(
                 children: [
                   ...List.generate(
-                    articles!.length,
+                    newsdata!.length,
                     (index) => ListTile(
                       title: Column(
                         children: [
                           Text(
-                            articles?[index].title ?? 'not available',
+                            newsdata?[index].title ?? 'not available',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Container(
                             width: 500,
                             height: 200,
                             child: CachedNetworkImage(
-                              imageUrl: articles?[index].urlToImage ??
+                              imageUrl: newsdata?[index].urlToImage ??
                                   'not available',
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
@@ -76,7 +75,7 @@ class _TeslaNewsState extends State<TeslaNews> {
                         ],
                       ),
                       subtitle:
-                          Text(articles?[index].description ?? 'not available'),
+                          Text(newsdata?[index].description ?? 'not available'),
                     ),
                   ),
                 ],

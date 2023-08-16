@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../helper/provider.dart';
 import '../../helper/services.dart';
-import '../../model/channel_api.dart';
+import '../../model/apimodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class AppleNews extends StatefulWidget {
@@ -16,16 +16,16 @@ class _AppleNewsState extends State<AppleNews> {
   @override
   void initState() {
     getData();
-
-    // TODO: implement initState
     super.initState();
   }
 
   void getData() async {
     final data = await ChannelProvider.getNews(ChannelService.applenews);
-    setState(() {
-      newsdata = data;
-    });
+    setState(
+      () {
+        newsdata = data;
+      },
+    );
   }
 
   @override
@@ -46,7 +46,9 @@ class _AppleNewsState extends State<AppleNews> {
       ),
       body: newsdata == null
           ? const Center(
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             )
           : SingleChildScrollView(
               child: Column(
@@ -67,7 +69,8 @@ class _AppleNewsState extends State<AppleNews> {
                               imageUrl: newsdata?[index].urlToImage ??
                                   'not available',
                               placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
+                                  const CircularProgressIndicator(
+                                      strokeWidth: 2),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
                             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../helper/provider.dart';
 import '../../helper/services.dart';
-import '../../model/channel_api.dart';
+import '../../model/apimodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BussinessNews extends StatefulWidget {
@@ -12,21 +12,20 @@ class BussinessNews extends StatefulWidget {
 }
 
 class _BussinessNewsState extends State<BussinessNews> {
-  List<Articles>? articles;
+  List<ApiModel>? newsdata;
   @override
   void initState() {
     getData();
-
-    // TODO: implement initState
     super.initState();
   }
 
   void getData() async {
-    final articles = await ChannelProvider.getNews(
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=12ca909335de49c986576aa019fe0ebd");
-    setState(() {
-      this.articles = articles;
-    });
+    final data = await ChannelProvider.getNews(ChannelService.businessnews);
+    setState(
+      () {
+        newsdata = data;
+      },
+    );
   }
 
   @override
@@ -45,7 +44,7 @@ class _BussinessNewsState extends State<BussinessNews> {
         ),
         elevation: 0.0,
       ),
-      body: articles == null
+      body: newsdata == null
           ? const Center(
               child: Center(child: CircularProgressIndicator()),
             )
@@ -53,19 +52,19 @@ class _BussinessNewsState extends State<BussinessNews> {
               child: Column(
                 children: [
                   ...List.generate(
-                    articles!.length,
+                    newsdata!.length,
                     (index) => ListTile(
                       title: Column(
                         children: [
                           Text(
-                            articles?[index].title ?? 'not available',
+                            newsdata?[index].title ?? 'not available',
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Container(
                             width: 500,
                             height: 200,
                             child: CachedNetworkImage(
-                              imageUrl: articles?[index].urlToImage ??
+                              imageUrl: newsdata?[index].urlToImage ??
                                   'not available',
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
@@ -73,12 +72,10 @@ class _BussinessNewsState extends State<BussinessNews> {
                                   const Icon(Icons.error),
                             ),
                           ),
-
-                          // Text(articles?[index].publishedAt ?? 'not available'),
                         ],
                       ),
                       subtitle:
-                          Text(articles?[index].description ?? 'not available'),
+                          Text(newsdata?[index].description ?? 'not available'),
                     ),
                   )
                 ],

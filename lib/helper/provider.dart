@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../model/apimodel.dart';
 import '../model/channel_api.dart';
 
 class ChannelProvider {

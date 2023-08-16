@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../helper/provider.dart';
 import '../../helper/services.dart';
-import '../../model/channel_api.dart';
+import '../../model/apimodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class StreetNews extends StatefulWidget {
@@ -15,7 +15,6 @@ class _StreetNewsState extends State<StreetNews> {
   @override
   void initState() {
     getData();
-    // TODO: implement initState
     super.initState();
   }
 
