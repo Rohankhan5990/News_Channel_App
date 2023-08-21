@@ -3,10 +3,10 @@ import '../model/apimodel.dart';
 import '../model/channel_api.dart';
 
 class ChannelProvider {
-  static final dio = Dio();
+  static final _dio = Dio();
   static Future<List<ApiModel>> getNews(String url) async {
     try {
-      final response = await dio.get(url);
+      final response = await _dio.get(url);
       if (response.statusCode == 200) {
         final responsedata = response.data as Map<String, dynamic>;
         var data = ChannelApi.fromJson(responsedata);
