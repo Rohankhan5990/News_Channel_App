@@ -4,7 +4,7 @@ import '../model/channel_api.dart';
 
 class ChannelProvider {
   static final _dio = Dio();
-  static Future<List<ApiModel>> getNews(String url) async {
+  static Future<List<ChaneelModel>> getNews(String url) async {
     try {
       final response = await _dio.get(url);
       if (response.statusCode == 200) {

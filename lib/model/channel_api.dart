@@ -3,7 +3,7 @@ import 'apimodel.dart';
 class ChannelApi {
   String? status;
   int? totalResults;
-  List<ApiModel>? newsdata;
+  List<ChaneelModel>? newsdata;
 
   ChannelApi({this.status, this.totalResults, this.newsdata});
 
@@ -11,9 +11,9 @@ class ChannelApi {
     status = json['status'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {
-      newsdata = <ApiModel>[];
+      newsdata = <ChaneelModel>[];
       json['articles'].forEach((v) {
-        newsdata!.add(ApiModel.fromJson(v));
+        newsdata!.add(ChaneelModel.fromJson(v));
       });
     }
   }

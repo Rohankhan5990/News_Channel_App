@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/get_provider_data.dart';
 
 class DataScreen extends StatefulWidget {
-  String url;
-  DataScreen({super.key, required this.url});
+  final String url;
+  const DataScreen({super.key, required this.url});
   @override
   State<DataScreen> createState() => _DataScreenState();
 }

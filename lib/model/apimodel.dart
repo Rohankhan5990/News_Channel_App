@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-class ApiModel {
+class ChaneelModel {
   final Source? source;
   final String title;
   final String url;
   final String description;
   final String? urlToImage;
-  ApiModel({
+  ChaneelModel({
     this.source,
     required this.title,
     required this.url,
@@ -14,14 +14,14 @@ class ApiModel {
     this.urlToImage,
   });
 
-  ApiModel copyWith({
+  ChaneelModel copyWith({
     Source? source,
     String? title,
     String? url,
     String? description,
     String? urlToImage,
   }) {
-    return ApiModel(
+    return ChaneelModel(
       source: source ?? this.source,
       title: title ?? this.title,
       url: url ?? this.url,
@@ -40,8 +40,8 @@ class ApiModel {
     };
   }
 
-  factory ApiModel.fromMap(Map<String, dynamic> map) {
-    return ApiModel(
+  factory ChaneelModel.fromMap(Map<String, dynamic> map) {
+    return ChaneelModel(
       source: map['source'] != null
           ? Source.fromMap(map['source'] as Map<String, dynamic>)
           : null,
@@ -55,8 +55,8 @@ class ApiModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ApiModel.fromJson(String source) =>
-      ApiModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ChaneelModel.fromJson(String source) =>
+      ChaneelModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -64,7 +64,7 @@ class ApiModel {
   }
 
   @override
-  bool operator ==(covariant ApiModel other) {
+  bool operator ==(covariant ChaneelModel other) {
     if (identical(
       this,
       other,

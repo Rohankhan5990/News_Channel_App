@@ -4,8 +4,8 @@ import '../helper/provider.dart';
 import '../model/apimodel.dart';
 
 class GetProvider with ChangeNotifier {
-  List<ApiModel>? _newsdata;
-  List<ApiModel>? get news => _newsdata;
+  List<ChaneelModel>? _newsdata;
+  List<ChaneelModel>? get news => _newsdata;
   bool isloading = false;
 
   void getData(String endpoint) async {
