@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_channel/screens/widget/api_data_screen.dart';
 import '../../helper/services.dart';
+import '../widget/custom_appbar.dart';
 
 class StreetNews extends StatefulWidget {
   const StreetNews({super.key});
@@ -12,18 +13,9 @@ class _StreetNewsState extends State<StreetNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Street Wall News",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        elevation: 0.0,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(text: "Streets wall News"),
       ),
       body: DataScreen(url: ChannelService.wallsnews),
     );

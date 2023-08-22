@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_channel/screens/widget/api_data_screen.dart';
 import '../../helper/services.dart';
+import '../widget/custom_appbar.dart';
 
 class BussinessNews extends StatefulWidget {
   const BussinessNews({super.key});
@@ -13,18 +14,9 @@ class _BussinessNewsState extends State<BussinessNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Bussiness News",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        elevation: 0.0,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(text: "Bussiness News"),
       ),
       body: DataScreen(url: ChannelService.businessnews),
     );

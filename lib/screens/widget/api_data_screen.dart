@@ -18,36 +18,34 @@ class _DataScreenState extends State<DataScreen> {
     getter.getData(widget.url);
   }
 
+  @override
   Widget build(BuildContext context) {
     final getter = Provider.of<GetProvider>(context, listen: true);
     return SingleChildScrollView(
       child: Column(
         children: [
-          getter.isloading == false
-              ? const Center(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...List.generate(
-                        getter.news!.length,
-                        (index) => ListTile(
+          if (getter.isloading == false)
+            const Center(
+              child: CircularProgressIndicator(),
+            )
+          else if (getter.news != null)
+            SingleChildScrollView(
+              child: Column(
+                children: getter.news!
+                    .map((newsItem) => ListTile(
                           title: Column(
                             children: [
                               Text(
-                                getter.news?[index].title ?? 'not available',
+                                newsItem.title,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
-                              Container(
+                              SizedBox(
                                 width: 500,
                                 height: 200,
                                 child: CachedNetworkImage(
-                                  imageUrl: getter.news?[index].urlToImage ??
-                                      'not available',
+                                  imageUrl:
+                                      newsItem.urlToImage ?? 'not available',
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(
                                           strokeWidth: 2),
@@ -57,13 +55,12 @@ class _DataScreenState extends State<DataScreen> {
                               ),
                             ],
                           ),
-                          subtitle: Text(getter.news?[index].description ??
-                              'not available'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          subtitle:
+                              Text(newsItem.description ?? 'not available'),
+                        ))
+                    .toList(),
+              ),
+            ),
         ],
       ),
     );

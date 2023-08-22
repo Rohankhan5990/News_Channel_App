@@ -8,16 +8,16 @@ class ChannelProvider {
     try {
       final response = await _dio.get(url);
       if (response.statusCode == 200) {
-        final responsedata = response.data as Map<String, dynamic>;
-        var data = ChannelApi.fromJson(responsedata);
-        return data.newsdata!;
+        final responseData = response.data as Map<String, dynamic>;
+        final data = ChannelApi.fromMap(responseData);
+        final newsDataList = data.newsdata;
+
+        return newsDataList;
       } else {
         throw Exception('Failed to fetch data');
       }
     } catch (e) {
-      throw Exception(
-        e.toString(),
-      );
+      throw Exception(e.toString());
     }
   }
 }

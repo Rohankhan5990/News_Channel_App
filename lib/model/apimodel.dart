@@ -4,7 +4,7 @@ class ChaneelModel {
   final Source? source;
   final String title;
   final String url;
-  final String description;
+  final String? description;
   final String? urlToImage;
   ChaneelModel({
     this.source,
@@ -47,7 +47,7 @@ class ChaneelModel {
           : null,
       title: map['title'] as String,
       url: map['url'] as String,
-      description: map['description'] as String,
+      description: map['description'] as String?,
       urlToImage:
           map['urlToImage'] != null ? map['urlToImage'] as String : null,
     );
@@ -87,8 +87,8 @@ class ChaneelModel {
 }
 
 class Source {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
   Source({
     required this.id,
     required this.name,
@@ -113,8 +113,8 @@ class Source {
 
   factory Source.fromMap(Map<String, dynamic> map) {
     return Source(
-      id: map['id'] as String,
-      name: map['name'] as String,
+      id: map['id'] as String?,
+      name: map['name'] as String?,
     );
   }
 
