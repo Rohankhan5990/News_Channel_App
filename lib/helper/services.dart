@@ -2,7 +2,7 @@ class ChannelService {
   static String applenews =
       "https://newsapi.org/v2/everything?q=apple&from=2023-08-15&to=2023-08-15&sortBy=popularity&apiKey=12ca909335de49c986576aa019fe0ebd";
   static String teslanews =
-      "https://newsapi.org/v2/everything?q=tesla&from=2023-07-22&sortBy=publishedAt&apiKey=12ca909335de49c986576aa019fe0ebd";
+      "https://newsapi.org/v2/everything?q=tesla&from=2023-07-23&sortBy=publishedAt&apiKey=12ca909335de49c986576aa019fe0ebd";
   static String businessnews =
       "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=12ca909335de49c986576aa019fe0ebd";
   static String technews =

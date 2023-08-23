@@ -12,52 +12,56 @@ class DataScreen extends StatefulWidget {
 
 class _DataScreenState extends State<DataScreen> {
   @override
-  void initState() {
-    super.initState();
-    final getter = Provider.of<GetProvider>(context, listen: false);
-    getter.getData(widget.url);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final getter = Provider.of<GetProvider>(context, listen: true);
+    getter.getData(widget.url);
     return SingleChildScrollView(
       child: Column(
         children: [
           if (getter.isloading == false)
             const Center(
-              child: CircularProgressIndicator(),
+              child: Padding(
+                padding: EdgeInsets.only(top: 300),
+                child: CircularProgressIndicator(
+                  strokeWidth: 5,
+                ),
+              ),
             )
           else if (getter.news != null)
             SingleChildScrollView(
               child: Column(
                 children: getter.news!
-                    .map((newsItem) => ListTile(
-                          title: Column(
-                            children: [
-                              Text(
-                                newsItem.title,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                width: 500,
-                                height: 200,
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      newsItem.urlToImage ?? 'not available',
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(
-                                          strokeWidth: 2),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                    .map(
+                      (newsItem) => ListTile(
+                        title: Column(
+                          children: [
+                            Text(
+                              newsItem.title,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 500,
+                              height: 200,
+                              child: CachedNetworkImage(
+                                imageUrl: newsItem.urlToImage ?? "",
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Center(
+                                  child: Icon(
+                                    Icons.error_rounded,
+                                    size: 50,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                          subtitle:
-                              Text(newsItem.description ?? 'not available'),
-                        ))
+                            ),
+                          ],
+                        ),
+                        subtitle: Text(newsItem.description ?? 'not available'),
+                      ),
+                    )
                     .toList(),
               ),
             ),

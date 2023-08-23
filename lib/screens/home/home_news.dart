@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_channel/constants/sizedbox.dart';
-import 'package:news_channel/screens/apple/apple_news.dart';
-import '../../constants/assets.dart';
-import '../bussiness/bussiness_news.dart';
-import '../streetwall/street_wall.dart';
-import '../tech/tech_news.dart';
-import '../tesla/tesla_news.dart';
+import 'package:news_channel/providers/get_provider_data.dart';
+import 'package:news_channel/screens/home/widgets/get_image_url.dart';
+import 'package:news_channel/screens/widget/card.dart';
+import 'package:provider/provider.dart';
+import '../widget/tab_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContecontext) {
+    final app = Provider.of<GetProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,90 +35,41 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AppleNews(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(ConstantImage.apple),
-                ),
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      ...GetImageUrl.imageurl.map(
+                        (e) => TabTile(
+                          title: e,
+                          isSelected: GetImageUrl.imageurl.indexOf(e) ==
+                              app.selectedTabIndex,
+                          index: GetImageUrl.imageurl.indexOf(e),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
+                ],
               ),
-              SpaceBox.height10,
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BussinessNews(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(ConstantImage.bussiness),
-                ),
-              ),
-              SpaceBox.height10,
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TeslaNews(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(ConstantImage.tesla),
-                ),
-              ),
-              SpaceBox.height10,
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TechNews(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(ConstantImage.tech),
-                ),
-              ),
-              SpaceBox.height10,
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StreetNews(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(ConstantImage.wall),
-                ),
-              )
-            ],
-          ),
+            ),
+            const Text(
+              "Latest News",
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            const CardDisplay(),
+          ],
         ),
       ),
     );
