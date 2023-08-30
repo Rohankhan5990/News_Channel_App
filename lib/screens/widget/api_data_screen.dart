@@ -4,66 +4,67 @@ import 'package:provider/provider.dart';
 import '../../providers/get_provider_data.dart';
 
 class DataScreen extends StatefulWidget {
-  String url;
-  DataScreen({super.key, required this.url});
+  final String url;
+  const DataScreen({super.key, required this.url});
   @override
   State<DataScreen> createState() => _DataScreenState();
 }
 
 class _DataScreenState extends State<DataScreen> {
   @override
-  void initState() {
-    super.initState();
-    final getter = Provider.of<GetProvider>(context, listen: false);
-    getter.getData(widget.url);
-  }
-
   Widget build(BuildContext context) {
     final getter = Provider.of<GetProvider>(context, listen: true);
+    getter.getData(widget.url);
     return SingleChildScrollView(
       child: Column(
         children: [
-          getter.isloading == false
-              ? const Center(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...List.generate(
-                        getter.news!.length,
-                        (index) => ListTile(
-                          title: Column(
-                            children: [
-                              Text(
-                                getter.news?[index].title ?? 'not available',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Container(
-                                width: 500,
-                                height: 200,
-                                child: CachedNetworkImage(
-                                  imageUrl: getter.news?[index].urlToImage ??
-                                      'not available',
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(
-                                          strokeWidth: 2),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+          if (getter.isloading == false)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 300),
+                child: CircularProgressIndicator(
+                  strokeWidth: 5,
+                ),
+              ),
+            )
+          else if (getter.news != null)
+            SingleChildScrollView(
+              child: Column(
+                children: getter.news!
+                    .map(
+                      (newsItem) => ListTile(
+                        title: Column(
+                          children: [
+                            Text(
+                              newsItem.title,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 500,
+                              height: 200,
+                              child: CachedNetworkImage(
+                                imageUrl: newsItem.urlToImage ?? "",
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Center(
+                                  child: Icon(
+                                    Icons.error_rounded,
+                                    size: 50,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                          subtitle: Text(getter.news?[index].description ??
-                              'not available'),
+                            ),
+                          ],
                         ),
+                        subtitle: Text(newsItem.description ?? 'not available'),
                       ),
-                    ],
-                  ),
-                ),
+                    )
+                    .toList(),
+              ),
+            ),
         ],
       ),
     );
